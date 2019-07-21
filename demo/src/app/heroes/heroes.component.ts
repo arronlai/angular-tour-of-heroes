@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { heroes, heroes2 } from './Heroes';
 import { Hero } from './Hero';
+import { HeroService } from '../hero.service';
 @Component({
   selector: 'app-heroes',
   templateUrl: './heroes.component.html',
@@ -8,13 +9,17 @@ import { Hero } from './Hero';
 })
 export class HeroesComponent implements OnInit {
 
-  heroes = heroes;
+  heroes: Hero[];
   heroes2 = heroes2;
   selectedHero: Hero;
 
-  constructor() { }
+  constructor(private heroService: HeroService) {
+  }
 
   ngOnInit() {
+    this.heroService.getHeroes().subscribe(data => {
+      this.heroes = data;
+    });
 
     // Different way to initialize object
     console.log(this.heroes[0] instanceof Hero);

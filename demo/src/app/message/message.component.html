@@ -1,0 +1,4 @@
+<div class="message-wrapper">
+  <p *ngFor="let m of messageService.message">{{m}}</p>
+  <button (click)="messageService.clear()">Clear</button>
+</div>
