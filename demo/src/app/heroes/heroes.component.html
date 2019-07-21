@@ -1,6 +1,15 @@
-<label for="hn">
-  <input type="text" name="hn" [(ngModel)]="hero.name">
-</label>
-<h1>
-  {{hero.name | uppercase}}
-</h1>
+<div class="heroes">
+  <li *ngFor="let hero of heroes" (click)="handleClick(hero)" [ngClass]="{selected: hero===selectedHero}">
+    <span class="badge">{{hero.id}}</span>
+    <span>{{hero.name}}</span>
+  </li>
+</div>
+
+<div *ngIf="selectedHero">
+  <label for="hn">
+    <input type="text" name="hn" [(ngModel)]="selectedHero.name">
+  </label>
+  <h1>
+    {{selectedHero.name | uppercase}}
+  </h1>
+</div>
