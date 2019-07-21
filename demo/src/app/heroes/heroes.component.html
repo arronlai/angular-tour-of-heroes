@@ -6,10 +6,5 @@
 </div>
 
 <div *ngIf="selectedHero">
-  <label for="hn">
-    <input type="text" name="hn" [(ngModel)]="selectedHero.name">
-  </label>
-  <h1>
-    {{selectedHero.name | uppercase}}
-  </h1>
+  <app-hero-detail [hero]="selectedHero"></app-hero-detail>
 </div>
