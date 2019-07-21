@@ -17,9 +17,7 @@ export class HeroesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.heroService.getHeroes().subscribe(data => {
-      this.heroes = data;
-    });
+    this.getHeroes();
 
     // Different way to initialize object
     console.log(this.heroes[0] instanceof Hero);
@@ -29,6 +27,12 @@ export class HeroesComponent implements OnInit {
   handleClick(hero) {
     this.selectedHero = hero;
     console.log(this.selectedHero);
+  }
+
+  getHeroes() {
+    this.heroService.getHeroes().subscribe(data => {
+      this.heroes = data;
+    });
   }
 
 }
