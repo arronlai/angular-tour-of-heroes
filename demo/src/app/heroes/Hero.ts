@@ -1,6 +1,6 @@
 export class Hero {
-    id: Number;
-    name: String;
+    id: number;
+    name: string;
 
     constructor(id, name) {
         this.id = id;

@@ -1,21 +1,47 @@
-import { Injectable } from '@angular/core';
-import { heroes } from './heroes/Heroes';
-import { Observable, of } from 'rxjs';
-import { Hero } from './heroes/Hero';
-import { MessageService } from './message.service';
-@Injectable({
-  providedIn: 'root'
-})
+import {Injectable} from '@angular/core';
+
+import {Observable, of} from 'rxjs';
+import {Hero} from './heroes/Hero';
+import {MessageService} from './message.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {catchError, map, tap} from 'rxjs/operators';
+
+@Injectable({providedIn: 'root'})
 export class HeroService {
-  constructor(private messageService: MessageService) { }
+    private heroesUrl = 'api/heroes'; // URL to web api
 
-  getHeroes() {
-    this.messageService.add('Fetch heroes:' + new Date());
-    return of(heroes);
-  }
+    constructor(private messageService : MessageService, private http : HttpClient) {}
 
-  getHero(id: number) {
-    this.messageService.add('Fetch hero with id: ' + id + ' ' + new Date())
-    return of(heroes.find(d => d.id === id))
-  }
+    log(msg) {
+        this
+            .messageService
+            .add(msg);
+    }
+
+    getHeroes() {
+      this.log('Fetch heroes:' + new Date());
+      return this.http.get < Hero[] > (this.heroesUrl).pipe(tap(_ => this.log('fetched heroes')), catchError(this.handleError < Hero[] > ('getHeroes', [])));
+    }
+
+    getHero(id : number) {
+        this.log('Fetch hero with id: ' + id + ' ' + new Date());
+        return this.http.get <Hero> (`${this.heroesUrl}/${id}`).pipe(
+          tap(_ => this.log('fetch hero with id' + id)),
+          catchError(this.handleError <Hero>('getHero'))
+        );
+    }
+
+    private handleError < T > (operation = 'operation', result?: T) {
+        return(error : any): Observable < T > => {
+
+            // TODO: send the error to remote logging infrastructure
+            console.error(error); // log to console instead
+
+            // TODO: better job of transforming error for user consumption
+            this.log(`${operation} failed: ${error.message}`);
+
+            // Let the app keep running by returning an empty result.
+            return of(result as T);
+        };
+    }
 }
