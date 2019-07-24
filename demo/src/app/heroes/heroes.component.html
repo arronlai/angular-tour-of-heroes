@@ -1,10 +1,6 @@
 <div class="heroes">
-  <li *ngFor="let hero of heroes" (click)="handleClick(hero)" [ngClass]="{selected: hero===selectedHero}">
+  <li *ngFor="let hero of heroes" (click)="handleClick(hero)" [ngClass]="{selected: hero===selectedHero}" routerLink="/detail/{{hero.id}}">
     <span class="badge">{{hero.id}}</span>
     <span>{{hero.name}}</span>
   </li>
-</div>
-
-<div *ngIf="selectedHero">
-  <app-hero-detail [hero]="selectedHero"></app-hero-detail>
 </div>
