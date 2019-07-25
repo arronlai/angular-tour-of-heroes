@@ -42,6 +42,11 @@ export class HeroService {
       );
     }
 
+    addHero(hero: Hero) {
+      this.log('Add hero: ' + hero.name + ' ' + new Date());
+      return this.http.post(`${this.heroesUrl}`, hero, )
+    }
+
     private handleError < T > (operation = 'operation', result?: T) {
         return(error : any): Observable < T > => {
 
